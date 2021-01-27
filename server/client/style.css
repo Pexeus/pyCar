@@ -9,8 +9,15 @@ img {
 }
 
 h1 {
-    position: absolute;
+    position: fixed;
     top: 20px;
     left: 20px;
     color: red;
+}
+
+p {
+    position: fixed;
+    top: 60px;
+    left: 20px;
+    color: black;
 }
