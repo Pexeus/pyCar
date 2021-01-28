@@ -8,26 +8,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <img id="display" alt="loading...">
+    <img id="display">
     <h1 id="fps"></h1>
+    <p id="controls"></p>
 
-    <script>
-        FRAMES = 0
-        var socket = io();
-
-        socket.on('connect', function(){
-            console.log("connected");
-        })
-
-        socket.on("broadcast", frame => {
-            document.getElementById("display").src = `data:image/jpeg;base64, ${frame}`
-            FRAMES += 1
-        })
-
-        setInterval(() => {
-            document.getElementById("fps").innerHTML = "FPS: " + FRAMES * 2
-            FRAMES = 0
-        }, 500);
-    </script>
+    <script src="./stream.js"></script>
+    <script src="./controls.js"></script>
 </body>
 </html>

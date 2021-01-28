@@ -1,3 +1,4 @@
+const { fips } = require("crypto");
 const express = require("express")
 const app = express();
 
@@ -12,24 +13,24 @@ io.on('connection', client => {
   console.log("conected to client");
   console.log(client.handshake.headers);
 
-  client.on("message", data => {
-    console.log("message from client:");
-    console.log(data);
+  client.on("controls", controls => {
+    console.log(controls);
+    io.sockets.emit("car_controls", controls)
   })
 
   client.on("frame", frame => {
-    const b64 = Buffer.from(frame, 'base64').toString()
-    io.sockets.emit("broadcast", b64)
+    io.sockets.emit("ctrl_frame", frame)
 
     FRAMES += 1
   })
 });
 
 setInterval(() => {
-  console.clear()
-  console.log("FPS: " + FRAMES);
+  if (FRAMES != 0) {
+    console.log("FPS: " + FRAMES);
 
-  FRAMES = 0
+    FRAMES = 0
+  }
 }, 1000);
 
 server.listen(80, () =>{
