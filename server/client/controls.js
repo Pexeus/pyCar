@@ -4,7 +4,8 @@ const controls = {
         camX: 90,
         camY: 90,
     },
-    esc: 14.5
+    esc: 14.5,
+    cam: true
 }
 
 document.addEventListener('keydown', event => {
