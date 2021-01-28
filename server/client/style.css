@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: monospace;
 }
 
 img {
@@ -8,16 +9,15 @@ img {
     height: 100vh;
 }
 
-h1 {
+#overlay {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    color: red;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.055);
+    display: inline-block;
 }
 
-p {
-    position: fixed;
-    top: 60px;
-    left: 20px;
-    color: black;
+h1 {
+    color: white;
+    text-shadow: 0px 0px 3px black;
 }

@@ -14,8 +14,12 @@ io.on('connection', client => {
   console.log(client.handshake.headers);
 
   client.on("controls", controls => {
-    console.log(controls);
     io.sockets.emit("car_controls", controls)
+  })
+
+  client.on("ctrl_restart", () => {
+    console.log("dispatching restart...");
+    io.sockets.emit("car_restart")
   })
 
   client.on("frame", frame => {
