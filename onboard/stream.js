@@ -1,10 +1,9 @@
 const { StreamCamera, Codec } = require("pi-camera-connect");
 const io = require("socket.io-client")
 
-const HOST = "http://192.168.60.100/"
-const socket = io(HOST)
-
 async function init(config) {
+    const socket = io(`http://${config.host}/`)
+    
     const streamCamera = new StreamCamera({
         codec: Codec.MJPEG,
         fps: config.fps,
@@ -24,9 +23,8 @@ async function init(config) {
     }
 }
 
-init({
-    fps: 30,
-    width: 1280,
-    height: 720,
-    rate: 4000000 //irg machts das nasty af
-})
+module.exports = {
+    init: function(config) {
+        init(config)
+    }
+}
