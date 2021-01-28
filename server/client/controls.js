@@ -3,7 +3,8 @@ const controls = {
         steer: 90,
         camX: 90,
         camY: 90,
-    }
+    },
+    esc: 14.5
 }
 
 document.addEventListener('keydown', event => {
