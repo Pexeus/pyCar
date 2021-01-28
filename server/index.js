@@ -27,7 +27,7 @@ io.on('connection', client => {
 
 setInterval(() => {
   if (FRAMES != 0) {
-    console.log("FPS: " + FRAMES);
+    //console.log("FPS: " + FRAMES);
 
     FRAMES = 0
   }
