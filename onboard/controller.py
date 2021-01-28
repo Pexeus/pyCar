@@ -17,7 +17,7 @@ sio = socketio.Client()
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-servoStatus = {"steer":90, "camX":90, "camY":90}
+servoStatus = {"steer":90, "camX":90, "camY":90, "camEnabled": True}
 
 # Setting Servo Pins
 sSteer_Pin = 17
@@ -34,7 +34,7 @@ def newServo(pin):
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, True)
     servo = GPIO.PWM(pin, 50)
-    servo.start(2.2)
+    servo.start(0)
 
     print("servo registered on pin", pin)
 
@@ -59,8 +59,6 @@ def newESC(pin):
     return esc
 
 def blink():
-    print(GPIO.input(LED_Pin))
-    
     if GPIO.input(LED_Pin) == 1:
         GPIO.output(LED_Pin,GPIO.LOW)
     else:
@@ -78,6 +76,29 @@ def updateAngle(servo, ctrl, name):
 def updateThrust(esc, thrust):
     esc.ChangeDutyCycle(thrust)
 
+def toggleCam(enable):
+    if enable != servoStatus["camEnabled"]:
+
+        print("toggling:", enable)
+
+        servoStatus["camEnabled"] = enable
+
+        if enable == True:
+            sCamX.start(0)
+            sCamY.start(0)
+
+            sCamY.ChangeDutyCycle(90 / 18 + 2)
+            sCamX.ChangeDutyCycle(90 / 18 + 2)
+        else:
+            sCamY.ChangeDutyCycle(90 / 18 + 2)
+            sCamX.ChangeDutyCycle(90 / 18 + 2)
+
+            time.sleep(.3)
+
+            sCamY.stop()
+            sCamX.stop()
+
+
 @sio.event
 def controls(ctrl):
     updateAngle(sSteer, ctrl, "steer")
@@ -85,6 +106,9 @@ def controls(ctrl):
     updateAngle(sCamY, ctrl, "camY")
 
     updateThrust(ESC, ctrl["esc"])
+
+    # buggt nach reinitialisierung
+    # toggleCam(ctrl["cam"])
 
     blink()
 
