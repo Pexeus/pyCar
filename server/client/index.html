@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js" integrity="sha512-+l9L4lMTFNy3dEglQpprf7jQBhQsQ3/WvOnjaN/+/L4i0jOstgScV0q2TjfvRF4V+ZePMDuZYIQtg5T4MKr+MQ==" crossorigin="anonymous"></script>
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,11 +12,24 @@
         <h1 id="fps"></h1>
         <p id="controls"></p>
         <button onclick="restartCar()">Restart pyCar</button>
+        <button onclick="toggleSettings()">Settings</button>
     </div>
 
+    <div id="settingsContainer">
+        <div id="settings">
+            <h3>Settings</h3>
+            <div id="inputs"></div>
+            <button onclick="dispatchSettings()">Save</button>
+        </div>
+    </div>
+
+    <script src="./vie.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js" integrity="sha512-+l9L4lMTFNy3dEglQpprf7jQBhQsQ3/WvOnjaN/+/L4i0jOstgScV0q2TjfvRF4V+ZePMDuZYIQtg5T4MKr+MQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
     <script src="./stream.js"></script>
     <script src="./controls.js"></script>
     <script src="./gamepad.js"></script>
     <script src="./com.js"></script>
+    <script src="./settings.js"></script>
 </body>
 </html>

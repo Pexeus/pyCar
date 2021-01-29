@@ -9,6 +9,10 @@ const controls = {
 }
 
 document.addEventListener('keydown', event => {
+    if (event.keyCode == 27) {
+        openSettings()
+    }
+
     if (event.keyCode == 39 && controls.servos.steer < 180) {
         controls.servos.steer += 10
     }
@@ -17,5 +21,4 @@ document.addEventListener('keydown', event => {
     }
 
     socket.emit("controls", controls)
-    console.log(event.keyCode);
 });

@@ -1,4 +1,4 @@
-const { fips } = require("crypto");
+const fs = require("fs")
 const express = require("express")
 const app = express();
 
@@ -8,6 +8,23 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 app.use(express.static("./client"))
+app.use(express.json())
+
+app.get("/config", (req, res) => {
+  res.end(fs.readFileSync("./config.json"))
+})
+
+app.post("/config", (req, res) => {
+  const config = req.body
+
+  const jsonData = JSON.stringify(config)
+  fs.writeFileSync("./config.json", jsonData)
+
+  console.log(config);
+  io.sockets.emit("conf_set", config)
+
+  res.end("ok")
+})
 
 io.on('connection', client => {
   console.log("conected to client");
@@ -20,6 +37,11 @@ io.on('connection', client => {
   client.on("ctrl_restart", () => {
     console.log("dispatching restart...");
     io.sockets.emit("car_restart")
+  })
+
+  client.on("conf_remote", conf => {
+    const jsonData = JSON.stringify(conf)
+    fs.writeFileSync("./config.json", jsonData)
   })
 
   client.on("frame", frame => {
@@ -37,6 +59,6 @@ setInterval(() => {
   }
 }, 1000);
 
-server.listen(83, () =>{
+server.listen(80, () =>{
   console.log("server online");
 });

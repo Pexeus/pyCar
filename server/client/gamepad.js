@@ -14,22 +14,13 @@ window.addEventListener("gamepadconnected", function(e) {
     updateControls()
 })
 
-function checkCamActivity() {
-    if (camControls.lastActive + 3000 < Date.now()) {
-        controls.cam = false
-    }
-    else {
-        controls.cam = true
-    }
-}
-
 function updateControls() {
     if (gamepadStatus.connected == true) {
         const gamepad = navigator.getGamepads()[0];
 
-        controls.servos.steer = sVauleReverse(gamepad.axes[0])
-        controls.servos.camX = sVaule(gamepad.axes[2])
-        controls.servos.camY = sVaule(gamepad.axes[3])
+        controls.servos.steer = sValueReverse(exponentiate(gamepad.axes[0]))
+        controls.servos.camX = sValue(exponentiate(gamepad.axes[2]))
+        controls.servos.camY = sValue(exponentiate(gamepad.axes[3]))
 
         if (controls.servos.camX != 90 || controls.servos.camY != 90) {
             camControls.lastActive = Date.now()
@@ -46,7 +37,25 @@ function updateControls() {
     }
 }
 
-function sVauleReverse(axe) {
+function checkCamActivity() {
+    if (camControls.lastActive + 3000 < Date.now()) {
+        controls.cam = false
+    }
+    else {
+        controls.cam = true
+    }
+}
+
+function exponentiate(axe) {
+    if (axe < 0) {
+        return (axe * axe) * -1
+    }
+    else {
+        return axe * axe
+    }
+}
+
+function sValueReverse(axe) {
     if (axe > 0.1 || axe < -0.1) {
         return Math.round(90 - (-axe * 60))
     }
@@ -55,12 +64,11 @@ function sVauleReverse(axe) {
     }
 }
 
-function sVaule(axe) {
+function sValue(axe) {
     if (axe > 0.03 || axe < -0.03) {
-        return Math.round(90 - (axe * 90))
+        return Math.round(90 - (axe * 60))
     }
     else {
         return 90
     }
 }
-
