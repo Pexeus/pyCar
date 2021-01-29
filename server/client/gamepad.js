@@ -27,7 +27,7 @@ function updateControls() {
     if (gamepadStatus.connected == true) {
         const gamepad = navigator.getGamepads()[0];
 
-        controls.servos.steer = sVaule(gamepad.axes[0])
+        controls.servos.steer = sVauleReverse(gamepad.axes[0])
         controls.servos.camX = sVaule(gamepad.axes[2])
         controls.servos.camY = sVaule(gamepad.axes[3])
 
@@ -46,8 +46,17 @@ function updateControls() {
     }
 }
 
-function sVaule(axe) {
+function sVauleReverse(axe) {
     if (axe > 0.1 || axe < -0.1) {
+        return Math.round(90 - (-axe * 60))
+    }
+    else {
+        return 90
+    }
+}
+
+function sVaule(axe) {
+    if (axe > 0.03 || axe < -0.03) {
         return Math.round(90 - (axe * 90))
     }
     else {

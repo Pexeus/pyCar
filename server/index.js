@@ -37,6 +37,6 @@ setInterval(() => {
   }
 }, 1000);
 
-server.listen(80, () =>{
+server.listen(83, () =>{
   console.log("server online");
 });
