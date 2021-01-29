@@ -14,6 +14,14 @@ app.get("/config", (req, res) => {
   res.end(fs.readFileSync("./config.json"))
 })
 
+app.post("/frame", (req, res) => {
+  io.sockets.emit("ctrl_frame", req.body.data)
+
+  FRAMES += 1
+
+  res.end("ok")
+})
+
 app.post("/config", (req, res) => {
   const config = req.body
 
